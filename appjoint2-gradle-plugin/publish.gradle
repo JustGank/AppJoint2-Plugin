@@ -1,0 +1,19 @@
+afterEvaluate {
+    publishing {
+        publications {
+            // Creates a Maven publication called "release".
+            maven(MavenPublication)     {
+                from components.java
+                artifactId = 'appjoint2-plugin'
+                version = '1.0.0'
+            }
+        }
+
+        repositories {
+            maven {
+                // 生成的插件位置
+                url = uri('../repo')
+            }
+        }
+    }
+}
