@@ -47,7 +47,7 @@ class AppJoint2Plugin : Plugin<Project> {
                             InstrumentationScope.ALL
                         ) {}
 
-                    variant.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COPY_FRAMES)
+                    variant.instrumentation.setAsmFramesComputationMode(FramesComputationMode.COMPUTE_FRAMES_FOR_ALL_CLASSES)
 
 
                     val name = "AppJoint2${firstCharToUpperCase(variant.name)}Task"
