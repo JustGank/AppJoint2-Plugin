@@ -22,14 +22,26 @@ class FindClassVisitor(val className: String, val interfaces: Array<String>) :
 
             ClassInfoRecord.ASM_ANNOTATION_MODULE_SPEC -> {
                 return object : AnnotationMethodsVisitor() {
+                    var valueSpecified = false
                     override fun visit(name: String?, value: Any?) {
+                        super.visit(name, value)
+                        valueSpecified=true
                         val annotationModuleSpecBean = AnnotationModuleSpecBean(className)
                         if (value is Int) {
                             annotationModuleSpecBean.order = value
                         }
                         ClassInfoRecord.moduleSpecBeans.add(annotationModuleSpecBean)
                         Log.i("FindClassVisitor find @ModuleSpec class : $className , order : ${annotationModuleSpecBean.order} ")
-                        super.visit(name, value)
+                    }
+
+                    override fun visitEnd() {
+                        super.visitEnd()
+                        if(!valueSpecified){
+                            val annotationModuleSpecBean = AnnotationModuleSpecBean(className)
+                            annotationModuleSpecBean.order=1000
+                            ClassInfoRecord.moduleSpecBeans.add(annotationModuleSpecBean)
+                            Log.i("FindClassVisitor find @ModuleSpec class : $className , order : ${annotationModuleSpecBean.order} ")
+                        }
                     }
                 }
             }
